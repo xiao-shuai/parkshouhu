@@ -31,7 +31,7 @@ class My extends Component{
         super(props)
         this.state={
             selectedIndex: 0,
-            cacheSize:"2",
+            cacheSize:"0",
             unit:"M",
         }
         
