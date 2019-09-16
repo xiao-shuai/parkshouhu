@@ -13,6 +13,9 @@ import {
 import {pk} from '../config/sty'
 import {Input,Button } from 'react-native-elements'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import {inject,observer} from 'mobx-react'
+@inject(["mbx"])
+@observer // 监听当前组件
 class Wenti extends Component{
     static navigationOptions = {
         title: 'Submission problem',
@@ -30,6 +33,40 @@ class Wenti extends Component{
         }
     }
 
+  sub=()=>{
+   if(this.state.name==undefined){
+       return Alert.alert('Tips','Please enter your name.',[{'text':'ok'}])
+   }
+   
+   if(this.state.phone==undefined){
+    return Alert.alert('Tips','Please enter your phone.',[{'text':'ok'}])
+    }
+    if(this.state.add==undefined){
+        return Alert.alert('Tips','Please enter your address.',[{'text':'ok'}])
+    }
+    if(this.state.tit==undefined){
+        return Alert.alert('Tips','Please enter your title.',[{'text':'ok'}])
+    }
+    if(this.state.wt==undefined){
+        return Alert.alert('Tips','Please enter your problem.',[{'text':'ok'}])
+    }
+   
+    let a={
+        tit:this.state.tit,
+        add:this.state.add,
+    }
+
+    this.props.mbx.save_(a)
+    this.props.navigation.navigate('Record')
+
+    fetch('https://www.fastmock.site/mock/7b7807bc0b02343d47fe3a02771b9a11/shouhupark/get')
+    .then(res=>res.json())
+    .then(res=>{})
+    .catch(err=>{})
+ 
+
+  }
+
     render(){
         return (
         <SafeAreaView style={{flex:1,backgroundColor:'#000000',alignItems:'center'}}>
@@ -43,6 +80,9 @@ class Wenti extends Component{
             placeholderTextColor='red'
              inputStyle={{color:'white'}}
              labelStyle={{color:'white'}}
+             onChangeText={(name)=>{
+                 this.setState({name})
+             }}
             />
              <Input label='phone' containerStyle={{
                 marginTop:20
@@ -52,6 +92,10 @@ class Wenti extends Component{
             placeholderTextColor='red'
              inputStyle={{color:'white'}}
              labelStyle={{color:'white'}}
+
+             onChangeText={(phone)=>{
+                 this.setState({phone})
+             }}
             /> 
             <Input label='address' containerStyle={{
                 marginTop:20
@@ -61,6 +105,9 @@ class Wenti extends Component{
             placeholderTextColor='red'
              inputStyle={{color:'white'}}
              labelStyle={{color:'white'}}
+             onChangeText={(add)=>{
+                 this.setState({add})
+             }}
             />
             <Input label='Title' containerStyle={{
                 marginTop:20
@@ -70,6 +117,9 @@ class Wenti extends Component{
              placeholderTextColor='red'
              inputStyle={{color:'white'}}
              labelStyle={{color:'white'}}
+             onChangeText={(tit)=>{
+                 this.setState({tit})
+             }}
             />
 
             <View style={{width:pk.w*.9,
@@ -89,11 +139,17 @@ class Wenti extends Component{
                  selectionColor={'white'}
                  placeholder='Problem description'
                  placeholderTextColor={'red'}
-                 
+                 onChangeText={(wt)=>{
+                     this.setState({wt})
+                 }}
                 />
 
             </View> 
-         <Button buttonStyle={{backgroundColor:'#48C9B0',marginTop:25}} title='Release'/>
+         <Button buttonStyle={{backgroundColor:'#48C9B0',marginTop:25}} title='Release' 
+           onPress={()=>{
+               this.sub()
+           }}
+         />
             </KeyboardAwareScrollView>
         </SafeAreaView>
         )

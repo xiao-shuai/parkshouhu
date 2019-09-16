@@ -11,6 +11,10 @@ import {
     SafeAreaView,Alert,Linking,Modal,ProgressViewIOS
 } from 'react-native'
 import {pk} from '../config/sty'
+import {inject,observer} from 'mobx-react'
+import { NavigationActions } from 'react-navigation';
+@inject(["mbx"])
+@observer // 监听当前组件
 class Shouhu extends Component{
     static navigationOptions = {
         // title: 'relese',
@@ -28,7 +32,27 @@ class Shouhu extends Component{
         }
     }
 
+   componentWillMount (){
+       AsyncStorage.getItem('ok')
+       .then(res=>{
+           console.log('res',res);      
+        if(res!==null){
+         this.props.mbx.change_login(true)  
+        }
+       })
+       .catch(err=>{
+        
+       })
+    }
+
+  now_login=()=>{
+      Alert.alert('Tips','Please login',[{'text':'cancel',},{'text':'ok',onPress:()=>{
+     this.props.navigation.reset([NavigationActions.navigate({ routeName: 'Login' })], 0) 
+      }}])
+  }  
     render(){
+        console.log('q122',this.props.mbx.login);
+        const login=this.props.mbx.login
         return (
         <SafeAreaView style={{flex:1,backgroundColor:'#000000',alignItems:'center'}}>
                 <Image source={require('../images/park.png')} 
@@ -36,12 +60,18 @@ class Shouhu extends Component{
                  />
 
                  <TouchableOpacity style={styles.a} onPress={()=>{
+                     login?
                      this.props.navigation.navigate('Wenti')
+                     :
+                     this.now_login()
                  }}>
                   <Text style={{fontSize:18,color:'white'}}>I want to report for repairs.</Text>
                  </TouchableOpacity>
                  <TouchableOpacity style={styles.a} onPress={()=>{
+                     login?
                      this.props.navigation.navigate('Record')
+                     :
+                     this.now_login()
                  }}>
                  <Text style={{fontSize:18,color:'white'}}>
                  Record of repair

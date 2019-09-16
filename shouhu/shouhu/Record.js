@@ -12,6 +12,10 @@ import {
 } from 'react-native'
 import {ButtonGroup,Button} from 'react-native-elements'
 import {pk} from '../config/sty'
+import {inject,observer} from 'mobx-react'
+
+@inject(["mbx"])
+@observer // 监听当前组件
 class Record extends Component{
     static navigationOptions = {
         title: 'Maintenance record',
@@ -33,9 +37,20 @@ class Record extends Component{
         this.setState({selectedIndex})
       }
 
+   componentDidMount(){
+       fetch('https://www.fastmock.site/mock/7b7807bc0b02343d47fe3a02771b9a11/shouhupark/record')
+       .then(res=>res.json())
+       .then(res=>{
+
+       })
+       .catch(err=>{
+
+       })
+   }   
     render(){
         const buttons = ['Pending maintenance', 'Completed']
         const { selectedIndex } = this.state
+        const data=this.props.mbx.record
         return (
         <SafeAreaView style={{flex:1,backgroundColor:'#000000',alignItems:'center'}}>
      <ButtonGroup
@@ -49,27 +64,35 @@ class Record extends Component{
     {
         selectedIndex==0?
         <ScrollView>
-         <View style={{width:pk.w*.9,
-            backgroundColor:'white',
-            borderRadius:6,
-            padding:10,
-            flexDirection:'row',
-            justifyContent:'space-between',
-            alignItems:'center'
-            }}> 
-
-            <View>
-             <Text style={{fontSize:18,color:'#424949'}}>
-              title:qw
-             </Text>            
-             <Text style={{fontSize:18,color:'#424949',marginTop:10}}>
-              address:qw
-             </Text>
-              </View>
-              <Button title='Waiting' buttonStyle={{
-                  backgroundColor:'#E74C3C'
-              }}/>
-         </View>
+            {
+                data.map((i,k)=>{
+             return (
+                <View style={{width:pk.w*.9,
+                    backgroundColor:'white',
+                    borderRadius:6,
+                    padding:10,
+                    flexDirection:'row',
+                    justifyContent:'space-between',
+                    alignItems:'center',
+                    marginTop:20
+                    }} key={k}> 
+        
+                    <View>
+                     <Text style={{fontSize:18,color:'#424949'}}>
+                      title: {i.tit.length>10? i.tit.substr(0,10)+'..':i.tit}
+                     </Text>            
+                     <Text style={{fontSize:18,color:'#424949',marginTop:10}}>
+                      address: {i.add.length>10? i.add.substr(0,10)+'..':i.add}
+                     </Text>
+                      </View>
+                      <Button title='Waiting' buttonStyle={{
+                          backgroundColor:'#E74C3C'
+                      }}/>
+                 </View>
+             )
+                })
+            }
+        
         </ScrollView>
         :
         <ScrollView>
@@ -79,15 +102,16 @@ class Record extends Component{
             padding:10,
             flexDirection:'row',
             justifyContent:'space-between',
-            alignItems:'center'
+            alignItems:'center',
+            marginTop:20
             }}> 
 
             <View>
              <Text style={{fontSize:18,color:'#424949'}}>
-              title:qw
+              title: Lamp tube
              </Text>            
              <Text style={{fontSize:18,color:'#424949',marginTop:10}}>
-              address:qw
+              address: Fragrant Park
              </Text>
               </View>
               <Button title='Completed' buttonStyle={{

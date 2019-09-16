@@ -24,11 +24,15 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import {store} from './shouhu/config/data'
 import SHOUHU from './shouhu/config/config'
-
+import {Provider} from 'mobx-react'
+console.disableYellowBox=true
 const App = () => {
   return (
+    <Provider {...store}>
     <SHOUHU />
+    </Provider>
  );
 };
 

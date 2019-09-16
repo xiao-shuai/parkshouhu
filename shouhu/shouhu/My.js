@@ -15,6 +15,9 @@ import {pk} from '../config/sty'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import  AntDesign from 'react-native-vector-icons/AntDesign'
 import clear from 'react-native-clear-cache';
+import {inject,observer} from 'mobx-react'
+@inject(["mbx"])
+@observer // 监听当前组件
 class My extends Component{
     static navigationOptions = {
         title: 'My',
@@ -40,8 +43,19 @@ class My extends Component{
         this.setState({cacheSize:'0'})
     
       }
-    render(){
 
+tui=()=>{
+    AsyncStorage.removeItem('ok')
+    this.props.navigation.navigate('Login')
+}
+
+now_login=()=>{
+    Alert.alert('Tips','Please login',[{'text':'cancel',},{'text':'ok',onPress:()=>{
+   this.props.navigation.reset([NavigationActions.navigate({ routeName: 'Login' })], 0) 
+    }}])
+}  
+    render(){
+        const login=this.props.mbx.login
         return (
         <SafeAreaView style={{flex:1,backgroundColor:'#000000',alignItems:'center'}}>
          <View style={{width:pk.w,height:pk.h*.25,
@@ -72,7 +86,10 @@ class My extends Component{
            borderBottomWidth:1,
            borderBottomColor:'#D7DBDD'
            }} onPress={()=>{
+               login?
                this.props.navigation.navigate('Feedback')
+               :
+               this.now_login()
            }}>
                <View style={{flexDirection:'row'}}>
               <AntDesign name='bulb1' style={{width:pk.w*.15,fontSize:22,color:'#28B463'}}/>
@@ -101,10 +118,11 @@ class My extends Component{
                </View>
 
            </TouchableOpacity>
-           <Button title='login' buttonStyle={{width:pk.w*.9,
+           <Button title={login?'Sign out':'Please login'} buttonStyle={{width:pk.w*.9,
           backgroundColor:'#1ABC9C',marginTop:30
         }} onPress={()=>{
-            this.props.navigation.navigate('Login')
+            this.tui()
+
         }}/>
         </SafeAreaView>
         )
