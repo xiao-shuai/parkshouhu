@@ -43,6 +43,12 @@ class Shouhu extends Component{
        .catch(err=>{
         
        })
+
+   fetch('https://www.fastmock.site/mock/7b7807bc0b02343d47fe3a02771b9a11/shouhupark/userinfo')
+   .then(res=>res.json())
+   .then()
+   .catch()
+
     }
 
   now_login=()=>{
