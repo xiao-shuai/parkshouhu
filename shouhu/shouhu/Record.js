@@ -132,5 +132,5 @@ const styles=StyleSheet.create({
         width:pk.w*.9,height:pk.h*.08,
         backgroundColor:'#2C3E50',marginTop:50,borderRadius:6,
         alignItems:'center',justifyContent:'center'
-    }
+      }
 })
