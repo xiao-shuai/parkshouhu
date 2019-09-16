@@ -50,7 +50,6 @@ class Record extends Component{
         selectedIndex==0?
         <ScrollView>
          <View style={{width:pk.w*.9,
-        //  height:pk.h*.2,
             backgroundColor:'white',
             borderRadius:6,
             padding:10,
@@ -74,7 +73,27 @@ class Record extends Component{
         </ScrollView>
         :
         <ScrollView>
+           <View style={{width:pk.w*.9,
+            backgroundColor:'white',
+            borderRadius:6,
+            padding:10,
+            flexDirection:'row',
+            justifyContent:'space-between',
+            alignItems:'center'
+            }}> 
 
+            <View>
+             <Text style={{fontSize:18,color:'#424949'}}>
+              title:qw
+             </Text>            
+             <Text style={{fontSize:18,color:'#424949',marginTop:10}}>
+              address:qw
+             </Text>
+              </View>
+              <Button title='Completed' buttonStyle={{
+                  backgroundColor:'#28B463'
+              }}/>
+         </View>
         </ScrollView>
     }
         </SafeAreaView>

@@ -47,7 +47,11 @@ class Shouhu extends Component{
                  Record of repair
                      </Text>
                  </TouchableOpacity>
-                 <TouchableOpacity style={styles.a}>
+                 <TouchableOpacity style={styles.a} 
+                  onPress={()=>{
+                    this.props.navigation.navigate('My')
+                  }}
+                 >
                  <Text style={{fontSize:18,color:'white'}}>
                  Personal Center  
                   </Text>
